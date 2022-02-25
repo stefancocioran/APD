@@ -1,0 +1,24 @@
+331CA Cocioran Stefan
+
+- ex1 -
+Este la fel ca la primul exercitiu din laboratorul 8, am inlocuit MPI_Send si 
+MPI_Recv (care sunt functii blocante) cu MPI_Isend si MPI_Irecv care sunt functii 
+non-blocante, la care se adauga MPI_Test si MPI_Wait pentru a ne asigura ca datele 
+au fost transmise in mod corect, in ordine.
+
+- ex2 -
+-> sendrecv 
+Procesele fac mai intai Send apoi Receive ducand la o dependenta ciclica de date, 
+adica un deadlock. Aceasta problema se rezolva folosind MPI_Sendrecv.
+
+->bsend
+Se creeaza un buffer folosind functia MPI_Buffer_attach prin intermediul caruia 
+sunt schimbate mesajele. In buffer vor ajunte doar mesaje care au fost trimise 
+prin MPI_Bsend. MPI_Bsend este o functie blocanta care garantaza ca datele au 
+fost copiate integral in buffer atunci cand intoarce un rezultat.
+
+->non-blocking
+
+MPI_Isend si MPI_Irecv ne garanteaza ca nu se va mai bloca, iar MPI_Waitall 
+asteapta pana cand toate apelurile au fost finalizate cu succes, garanteaza 
+ca toate datele au fost primite/trimise in mod corect.

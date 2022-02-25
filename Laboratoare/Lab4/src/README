@@ -1,0 +1,52 @@
+331CA COCIORAN STEFAN
+
+1. Numarul de core-uri l-am luat folosind Runtime.getRuntime().availableProcessors()
+si in rest am procedat la fel ca la primul laborator.
+
+2.
+
+a) bug1
+Doar apeland metoda run() nu se va crea un fir de executie nou. Se apeleaza cu
+start(), care creaza stack-ul pentru thread, notifica VMJ si SO ca se va crea
+un thread nou, pe care se va executa metoda run().
+
+b) bug2
+Nu se va bloca deoarece synchronized este ca un mutex reentrant. Un thread care
+detine lock-ul unui obiect il poate refolosi pentru ca ii apartine.
+
+c) bug3
+In Java se incearca economisirea memoriei utilizate, iar daca sunt create doua
+string-uri diferite care au acelasi continut, acestea vor avea aceeasi referinta.
+Daca se schimba unul dintre string-uri, apar race condition-uri pentru ca
+threadurile vor fi sincronizate dupa obiecte diferite.
+
+d) bug4
+Thread-ul isi incepe executia, este pus pe sleep 1 secunda de thread-ul main si
+este setat sa se opreasca. Fiecare thread are un cache propriu (in spatele caruia
+se afla memoria principala care e partajata de toate thread-urile), iar cand main
+seteaza keepRunning pe "false", se poate sa faca aceasta modificare in cache-ul
+local in prima faza si apoi se propaga in memoria principala. Sau thread-ul cand
+citeste keepRunning, sa il citeasca din cache-ul propriu (o valoare mai veche).
+Este posibil ca la un moment dat sa se invalideze cache-ul respectiv, sa se ia
+valoarea din memoria principala si sa se sincronizeze thread-urile.
+Folosind volatile sunt fortate citirile/scrierile din acea variabila sa lucreze cu
+memoria principala.
+
+e) bug5
+Fiecare thread obtine un lock si il asteapta pe celalalt sa-l elibereze pe cel
+de care are nevoie in continuare. Ca cele doua thread-uri sa nu mai depinda unul
+de celalalt, cele doua blocuri synchronized ar mai trebui sa nu mai fie imbricate.
+
+f) bug6
+Aici poate aparea un race condition, mai multe thread-uri pot intra simultan
+in metoda din "Singleton.java" si pot crea mai multe instante. Pentru a rezolva
+aceasta problema si a genera o singura instanta, trebuie sa sincronizam metoda.
+
+3. Se paralelizeaza operatiile de inmultire, fiecarui thread ii revine o portiune
+din vector, se procedeaza la fel ca la laboratoarele anterioare.
+
+4. Se observa ca fiecare iteratie depinde de g[i][k], g[k][j] si de g[i][j], avand
+astfel nevoie de o copie a matricii de adiacenta pentru ca doua thread-uri, in
+acelasi timp, ar putea sa acceseze g[i][k] si g[k][j]. Se foloseste astfel o
+bariera pentru a ne asigura ca matricea de adiacenta a fost calculata corect
+inainte de a trece la pasul urmator.

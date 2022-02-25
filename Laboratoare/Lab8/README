@@ -1,0 +1,27 @@
+331CA COCIORAN STEFAN
+
+MPI permite rularea cu mai multe procese, un proces are propriul spatiu de adrese 
+si poate porni la randul lui alte threaduri. Un comunicator MPI reprezinta un 
+grup de procese care comunica intre ele (MPI_COMM_WORLD este comunicatorul default 
+din care fac parte toate procesele).
+
+Are niste functii de baza precum: 
+-> int MPI_Init(int *argc, char ***argv) - initializeaza programul MPI, argumentele 
+din linia de comanda sunt pasate catre contextul de rulare a proceselor
+-> int MPI_Comm_size(MPI_Comm comm, int *size) - determina numarul de procese care 
+ruleaza in interiorul comunicatorului
+-> int MPI_Comm_rank(MPI_Comm comm, int *rank) - determina rangul procesului curent
+-> int MPI_Get_processor_name(char *name, int *resultlen) - determina numele procesorului
+-> int MPI_Finalize(void): declanseaza terminarea programului MPI
+
+Functiile MPI_Send si MPI_Recv sunt functii prin care un proces trimite si primeste 
+date de la un alt proces. MPI_Recv este o functie blocanta, programul se poate bloca 
+pana cand se executa actiunea de trimitere a mesajului catre procesul sursa.
+MPI_Bcast reprezintă o functie prin care un proces trimite un mesaj catre toate 
+procesele din comunicator (message broadcast), inclusiv lui insusi.
+Aceste functii sunt oarecum asemanatoare cu cele folosite la Protocoale de Comunicatie, 
+se stie ce tip de date sunt trimise/primite, dimensiunea etc.
+
+MPI_Scatter si MPI_Gather sunt asemanatoare cu procesul de paralelizeazare a 
+operatiilor pentru thread-uri, fiecarui thread ii revenea o portiune aproximativ 
+egala de date pentru a fi prelucrata.

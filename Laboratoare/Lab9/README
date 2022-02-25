@@ -1,0 +1,14 @@
+331CA COCIORAN STEFAN
+
+1, 2, 3. reduce, scan, broadcast - am urmat pasii din pseudocod
+Pentru reduce, algoritmul functioneaza doar pentru un numar de procese care este 
+putere a lui 2.
+
+Scopul unui pipeline este ca asigura faptul ca lucreaza cat mai multe procese 
+in acelasi timp pentru a imbunatati timpul de executie.
+
+4, 5, 6. polynomial, pipeline_sort, ranksort - am urmat pasii din pseudocod
+Pentru ranksort, algoritmul functioneaza corect doar atunci cand numarul de 
+procese este divizibil cu numarul de elemente al vectorului (cand este impartit 
+in mod perfect egal). De asemenea, daca apar valori duplicate in vector calculul 
+nu este facut corect.

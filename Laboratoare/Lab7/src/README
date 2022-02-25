@@ -1,0 +1,34 @@
+331CA COCIORAN STEFAN
+
+1. Daca am gasit targetNode ca fiind ultimul nod din calea curenta, aceasta cale
+este printata. Se retine ultimul nod din cale, se itereaza prin nodurile din graf,
+daca se gaseste o noua legatura intre noduri este adaugata la calea curenta si se
+porneste un nou task care va cauta alte cai. Ca sa se faca shutdown, de fiecare
+data cand se introduce un nou task, se incrementeaza AtomicInteger. Atunci cand
+un task se termina, se decrementeaza AtomicInteger, atunci cand ajunge la valoarea
+zero, inseamna ca toate task-urile au terminat si se inchide executor service-ul.
+
+2, 3. Se procedeaza dupa acelasi principiu ca la primul tastk. Este acelasi cod
+ca pentru algoritmul secvential, doar ca pentru fiecare apel recursiv a fost
+creat un nou task si am incrementat contorul atunci cand un task incepea si
+decrementat cand se termina
+
+
+4,5,6. Spre deosebire de ExecutorService unde aveam nevoie de un Atomic Integer
+pentru a sti daca trebuie sa oprim executia task-ului, ForkJoinPool foloseste
+o abordare divide at impera, adica task-ul initial este impartit in subtask-uri
+independente, pana cand acestea pot fi executate asincron. Dupa ce toate isi
+termina executia, se aduna toate rezultatele (join) si se opreste executia
+task-ului.
+
+7. In completableFuture se va trece rezultatul obtinut. Daca se gaseste nodul
+cautat, introduc rezultatul in completableFuture si opresc executia. Altfel,
+se imparte problema in subtask-uri pentru fiecare subarbore si se incrementeaza
+contorul. Daca la sfarsit contorul este zero dupa ce se face decrement, inseamna
+ca nu am gasit nodul si se returneaza "null".
+
+8. Apeland metoda "execute" se dau drumul la rularea taskului, iar cu get se
+returneaza rezultatul obtinut. In "compute" se instantiaza 2 task-uri noi
+pentru fiecare subarbore, se da fork pentru a incepe rularea lor in paralel
+si rezultatul este maximul dintre cele doua join-uri (rezultatele rularii
+in paralel) la care se adauga 1.

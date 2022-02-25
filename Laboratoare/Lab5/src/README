@@ -1,0 +1,47 @@
+331CA COCIORAN STEFAN
+
+1. Pentru aceasta problema trebuiesc respectate 3 reguli:
+* producatorul nu poate insera date daca buffer-ul este plin
+* consumatorul nu poate extrage date daca buffer-ul este gol
+* producatorul si consumatorul nu pot actiona simultan asupra buffer-ului
+
+Avand in vedere ultima regula, acestia nu pot actiona simultan asupra buffer-ului
+pentru a se asigura corectitudinea efectuarii operatiilor. De aceea, consumatorul
+trebuie sa astepte dupa producator si invers, iar pentru evitarea deadlock-urilor
+se foloseste mutex, wait, notify (ca sa nu avem o abordare de busy waiting) sau semafor.
+
+2. Am avut in vedere aceeasi abordare ca la exercitiul 1, urmarind pseudocodul din
+suportul de laborator.
+
+3. Pentru ca un filozof sa poata manca, acesta trebuie sa aiba atat furculita
+din partea stanga, cat si cea din partea dreapta. Daca toti filozofii vor pune
+in acelasi timp mana pe furculita din stanga, nu va ramane disponibila pentru
+niciunul o furculita in partea dreapta si vor astepta la infinit. Pentru a rezolva
+aceasta problema, unul dintre acestia va trebui sa puna prima data mana pe furculita
+din dreapta si sa astepte ca furculita din partea stanga sa nu mai fie folosita.
+
+4, 5. Problema este asemanatoare cu cea Producator-Consumator, dar are un alt
+set de reguli:
+* un scriitor si un cititior nu pot accesa in acelasi timp buffer-ul pentru
+ca este probabil ca cititorul sa citeasca o informatie eronata
+* doi scriitori nu pot actiona simultan asupra buffer-ului pentru ca se pot
+intercala informatiile scrise de acestia
+* mai multi cititori pot accesa simultan buffer-ul pentru ca nu modifica continutul
+acestuia si nu se poate ajunge la un race condition
+
+Exista doua variante de a rezolva problema Readers - Writers:
+* cititorii au prioritate - in aceasta varianta scriitorul poate ajunge la
+starvation (adica asteapta sa fie rulat, dar asta nu se va intampla niciodata)
+
+* scriitorii au proritate - daca exista cineva care scrie, cand acesta termina,
+se verifica cine vrea sa intre in buffer(un cititor sau scriitor). Se va da
+prioritate unui scriitor, iar daca nu exista scriitori in asteptare un cititor
+ii va lua locul. Avantajul este ca daca se strang mai multi cititori care asteapta
+ca scriitorii sa termine, acestia pot actiona simultan asupra buffer-ului si avem
+un timp de executie mai mic.
+
+6. Barbierul doarme pana cand vine un client care o sa vrea sa se aseze pe scaun.
+Daca mai exista un loc disponibil in sala de asteptare, se aseaza pe scaun, anunta
+barbierul ca vrea o tunsoare (s-a ocupat un scaun) si isi asteapta randul la tuns
+pana cand barbierul il poate primi (barber_ready.release()). Daca nu sunt locuri
+libere, clientul pleaca.

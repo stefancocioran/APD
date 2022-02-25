@@ -1,0 +1,27 @@
+COCIORAN STEFAN 331CA
+
+Exercitii:
+
+1. Am schimbat numarul de thread-uri si am observat ca programul are un comportament 
+aleator, thread-urile nu termina executia instructiunilor dupa ordinea ID-urilor lor, 
+ci dupa ordinea in care ele ajung la instructiunea "printf".
+Rezultatul este influentat de gradul de incarcare al fiecarui thread.
+
+2. M-am folosit de hint-ul din laborator pentru a seta numărul de thread-uri astfel încat 
+sa fie egal cu numarul de core-uri de pe masina pe care am rulat codul.
+
+3. Pentru un thred anume print-urile sale vor fi in ordine, dar se vor intercala cu print-urile 
+celorlalte thread-uri.
+
+4. Am creat doua thread-uri, fiecare thread ruland propria sa functie, f1 si respectiv f2 .
+
+5. Am preluat codul de la exercitiul anterior, modificand doar functia f folosindu-ma de 
+hint-ul din laborator astfel incat fiecare thread sa execute un numar aproximativ egal de 
+instructiuni.
+
+6. Am comentat printf-urile si am rulat in terminal comanda: time ./add_serial 1000000000 
+si am obtinut un timp de 5,260s.
+Am setat numarul de thread-uri ca fiind 20 si am rulat aceeasi comanda obtinand un 
+timp de 3,484s.
+Apoi am comentat partea de incrementare a elementelor vectorului si am pastrat doar prima 
+parte, cea de alocare a memoriei si initializare a vectorului, si am obtinut 3,015s.

@@ -1,0 +1,27 @@
+331CA COCIORAN STEFAN
+
+1. Se rezolva la fel ca problema din laboratorul trecut, doar ca buffer-ul este
+acum un ArrayBlockingQueue care permite folosirea unor metode blocante "put" si
+"take", nu mai este nevoie sa folosim semafoare si blocuri synchronized.
+
+2. Avem o problema de race condition, 2 thread-uri pot incrementa in acelasi timp
+variabila. Se rezolva facand respectiva variabila un AtomicInteger, fiind mai
+avantajos decat daca am fi folosit blocuri synchronized. Pentru incrementare se
+apeleaza metoda getAndAdd().
+
+3. Apare un race condition la scrierea in HashMap daca verificarea existentei
+unei chei si scrierea unei valori corespunzatoare acesteia nu se executa atomic.
+Se rezolva prin folosirea putIfAbsent(), care este o metoda sincronizata.
+Doar daca aceasta metoda returneaza null (exista deja un element cu cheia respectiva)
+se va folosi "put"-ul normal.
+
+4. Trei threaduri citesc numere din fisiere si le insereaza intr-o lista sincronizata,
+iar dupa ce s-au scris toate elementele in lista, un al patrulea thread o sorteaza.
+Pentru sincronizare se foloseste un semafor initializat cu -2, fiind incrementat de
+fiecare thread care scrie, iar cel care sorteaza il decrementeaza.
+
+5. Doua threaduri citesc din fisier nodurile unui arbore sub forma de perechi
+parinte - fiu si le introduc in acesta si al treilea thread il verifica.
+Se foloseste un CyclicBarrier pentru a garanta inserarea tuturor elementelor
+in arbore inainte de verificare. Metoda addChild() a arborelui este sincronizata
+pentru a nu se suprascrie valorile nodurilor.

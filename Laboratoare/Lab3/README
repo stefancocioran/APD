@@ -1,0 +1,47 @@
+COCIORAN STEFAN 331CA
+
+1. Se paralelizeaza operatiile de sortare, fiecarui thread ii revine o portiune 
+din vector pentru a fi sortata. Pentru a sti de la ce pozitie si intre ce interval 
+se vor face interschimbari in functie de faza para sau impara am folosit variabilele 
+start/end_even si start/end_odd. Variabila "sorted" indica daca intreg vectorul de 
+elemente este sortat iar "sorted_thread" indica daca in thread-uri au fost efectuate 
+interschimbari. Se realizeaza sortarea pentru indicii pari, se foloseste o bariera 
+ca sa se sincronizeze thread-urile pentru a trece la sortarea indicilor impari 
+(pentru a nu se intercala elementele/pentru evitarea unui race condition), apoi 
+se mai pune o bariera din acelasi motiv. De asemenea, am inlocuit bucla "for" 
+care poate avea multe iteratii redundante (vectorul poate fi deja sortat), cu una 
+"while" si am mai folosit o bariera la inceput pentru ca thread-urile sa stie din 
+start daca vectorul a fost sortat cu succes sau nu.
+
+2. Am comentat printarile si am rulat comanda:  time ./oets 100000 5
+Pentru OETS cu bucla "while" - 5,317s
+Pentru OETS cu bucla "for" - 7,634s
+Pentru bubble-sort clasic - 32,063s
+Se observa o imbunatatire enorma a timpului de executie.
+
+3. Se sorteaza crescator si respectiv descrescator liniile de pe pozitiile pare 
+si impare, se foloseste o bariera pentru a sincroniza thread-urile, se continua 
+cu sortarea creascatoare a coloanelor si se repeta procesul pana cand lista de numere 
+va fi sortata crescator intr-un mod "serpuit".
+
+4. Am comentat printarile si am rulat comanda:  time ./shear 5000 6
+Pentru shear sort clasic - 32,621s
+Pentru shear sort paralelizat - 9,735s
+
+5. Pentru a calcula start si end, m-am folosit de formulele din cadrul laboratorului.
+In functie de lungimea vectorului si de width-ul de la pasul respectiv numarul de 
+merge-uri este N / (2 * width) pentru ca o sa ajung la elemente de lungime 2 * width, 
+numarul de merge-uri este cate elemente sunt in vector impartit la cate rezultate 
+o sa ajung. Se foloseste o bariera pentru a ne asigura ca la fiecare pas de 
+interclasare toate operatiile  de 'merge' s-au terminat.
+
+
+6. Se paralelizeaza operatiile de sortare, fiecarui thread ii revine o portiune 
+din vector in care este cautat numarul. Daca acesta este gasit intr-unul dintre 
+capete, este retinta pozitia acestuia in vector altfel marcam faptul ca pentru 
+thread-ul respectiv elementul cautat se afla in intervalul de care acesta se ocupa 
+sau in exterior. Apoi se pune o bariera pentru ca thread-urile sa se sincronizeze, 
+se verifica care thread a gasit numarul(se afiseaza pozitia acestuia in vector), 
+si se actualizeaza pozitiile de start si end daca acesta nu a fost gasit inca.
+La sfarsit se foloseste iarasi bariera pentru ca toate thread-urile sa aiba 
+pozitia din stanga si dreapta corect setate/actualizate.

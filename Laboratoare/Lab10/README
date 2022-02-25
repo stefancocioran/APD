@@ -1,0 +1,47 @@
+331CA COCIORAN STEFAN
+
+- Algoritm unda -
+
+Algoritmul unda-ecou un tip de algoritm distribuit folosit pentru propagarea 
+informatiilor in cadrul unei retele distribuite de noduri si cu ajutorul sau 
+putem construi arborele de acoperire. Fiecare nod primeste un mesaj (unda), 
+afla care este parintele si informatia este trimisa mai departe nodurilor vecine, 
+cu exceptia parintelui. Fiecare nod primeste un mesaj de la vecinii sai, cu 
+exceptia parintelui, informatia primita este introdusa intr-un array de parinti 
+care este trimis catre parintele sau.
+
+- Algoritm Heartbeat -
+
+Algoritmul este folosit pentru alegerea liderului pe baza rangului cel mai mare 
+al unui nod. Nodurile trimit rangul lor nodurilor vecine, se calculeaza maximul
+local. Vecinii nodului vor trimite la nodurile de la care au primit mesaj, 
+liderul local pentru a fi actualizat. Algoritmul se repeta de N ori, unde N este 
+un numar suficient de mare astfel incat sa se asigure convergenta.
+Cand se termina, liderul va avea vectorul final de parinti, adica arborele 
+de acoperire. 
+
+- Algoritmul Epidemic -
+
+Acest algoritm este folosit pentru verifica topologia.
+Dupa ce liderul a fost ales si topologia a fost distribuita catre toate nodurile, 
+este util ca informatia sa fie validată. Folosim o validare bazata pe numarul de 
+noduri prezente in cluster. "Pacientul 0" va transmite informatia vecinilor sai, 
+care la randul lor, o vor transmite mai departe. Liderul va avea valoarea de 
+inceput egala cu "1", iar celelalte noduri o vor avea egala cu "0". Nodul 
+lider va realiza media aritmetica dintre valoarea sa si vecinii sai, celelalte noduri 
+vor executa aceeasi operație cu vecinii lor. Algoritmul se opreste cand se atinge
+convergenta. Impartirea lui 1 la aceasta valoare va rezulta in numarul de noduri al 
+clusterului.
+
+- Algoritmul Arbore -
+
+Matricea intregii topologii poate fi construita algoritmul arbore, mai precis 
+aplicand acest algoritm pe arborele de acoperire al retelei graf de noduri. 
+La inceput, fiecare nod are matricea sa de topologie, unde, initial, vor aparea 
+doar vecinii nodului respectiv. Initial fiecare nod are matricea sa de topologie, 
+egala cu vecinii nodului, apoi fiecare nod, cu exceptia liderului, va trimite 
+matricea sa nodului parinte, si va fi trimisa mai departe. La final, liderul va 
+avea topologia completa a retelei de noduri si o va raspandi in intreaga retea 
+de noduri. Adica fiecare nod, care nu este frunza, va trimite topologia completata 
+catre nodurile copil.
+ 

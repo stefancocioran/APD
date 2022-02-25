@@ -1,0 +1,27 @@
+COCIORAN STEFAN 331CA
+
+1. Am rulat de mai multe ori scriptul si in functie de modul in care thread-urile 
+sunt planificate, rezultatul va alterna intre 2 si 4. Acest lucru se numeste 
+race condition si este cauzat de faptul ca rezultatul calculului este conditionat 
+de modul de planificare a unor evenimente necontrolabile. Am folosit un mutex 
+pentru a delimita regiunea critica, cea de incrementare a variabilei cu 2.
+
+2. Se observa ca output-ul alterneaza in functie de gradul de incarcare al 
+fiecarui thread, iar pentru a ne asigura ca se afiseaza mai intai 1 si apoi 2 
+trebuie folositao bariera. Astfel, daca thread-ul cu id-ul 0 ar fi ajuns primul 
+sa execute afisarea lui "2", inainte se execute aceasta instructiune asteapta 
+ca thread-ul cu id-ul 1 sa afiseze valoarea 1 apoi va afisa si el valoarea 2.
+
+3,4,5. Am paralelizat prima, apoi a doua bucla de iteratie urmand formula/explicatiile 
+de la laborator si de la curs si am observat ca inmultirea matricelor se realizeaza 
+in mod corect. In ceea ce priveste cea de-a treia bucla de iteratie, am folosit 
+aceeasi formula dar am observat ca se obtine un rezultat eronat din cauza ca s-ar 
+putea ca doua thread-uri, in acelasi timp, sa adauge peste acelasi c[i][j]. 
+Astfel, am folosit un mutex pentru a rezolva aceasta problema de sincronizare, dar 
+aceasta solutie devine mult mai ineficienta decat celelalte doua pentru ca se 
+pierde timp la asteptarea thread-urilor la blocare si deblocare.
+
+
+6. Cele 7 thread-uri vor calcula matricele M in orice ordine si folosind o bariera 
+se asteapta ca toate aceste matrici sa fie calculate pentru ca apoi 4 dintre 
+aceste thread-uri sa continue cu calcularea matricelor C.
